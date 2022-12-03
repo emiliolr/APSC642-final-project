@@ -59,7 +59,6 @@ def main(args):
     model.eval() # turns off batchnorm in UNet
 
     dataloader = DataLoader(dataset, batch_size = 32, shuffle = False)
-    full_dataloader = DataLoader(dataset, batch_size = len(dataset), shuffle = False)
 
     all_recon_error = []
     all_labels_neg_pos = []
@@ -74,6 +73,9 @@ def main(args):
                 X_recon_viz = torch.sigmoid(X_recon_viz)
 
                 save_images(X_recon_viz, filename = f'figures/reconstructions_inlier_class={args.inlier_class}_batch={i}.png')
+
+                X_viz = X.detach().cpu()
+                save_images(X_viz, filename = f'figures/original_images_inlier_class={args.inlier_class}_batch={i}.png')
 
             #  extract reconstruction losses on each image - these are non-standardized scores!
             recon_error = mse_loss(X, X_recon, train = False).detach().cpu().tolist()
