@@ -15,6 +15,9 @@ from utils import mse_loss, get_inlier_outlier_dataset, save_images
 def main(args):
     # Get device
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+    print(f'Using device {device}')
+
+    print()
 
     # Instantiate UNet model & optimizer
     model = UNet(n_channels = 3, n_classes = 3, bilinear = True).to(device)
@@ -70,7 +73,7 @@ def main(args):
                 X_recon_viz = X_recon.detach().cpu()
                 X_recon_viz = torch.sigmoid(X_recon_viz)
 
-                save_images(X_recon_viz, filename = f'figures/reconstructions_batch{i}.png')
+                save_images(X_recon_viz, filename = f'figures/reconstructions_inlier_class={args.inlier_class}_batch={i}.png')
 
             #  extract reconstruction losses on each image - these are non-standardized scores!
             recon_error = mse_loss(X, X_recon, train = False).detach().cpu().tolist()
