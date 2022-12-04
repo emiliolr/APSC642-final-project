@@ -112,13 +112,11 @@ def main(args):
     all_labels_neg_pos = np.array(all_labels_neg_pos)
 
     inlier_recon_error = all_recon_error[all_labels_neg_pos == 1]
-    print(len(inlier_recon_error))
-    with open(f'results/inlier_recon_error_inlier_class={args.inlier_class}', 'w') as f:
+    with open(f'results/inlier_recon_error_inlier_class={args.inlier_class}.txt', 'w') as f:
         f.write(','.join([str(e) for e in inlier_recon_error]))
 
     outlier_recon_error = all_recon_error[all_labels_neg_pos == 0]
-    print(len(outlier_recon_error))
-    with open(f'results/outlier_recon_error_inlier_class={args.inlier_class}', 'w') as f:
+    with open(f'results/outlier_recon_error_inlier_class={args.inlier_class}.txt', 'w') as f:
         f.write(','.join([str(e) for e in outlier_recon_error]))
 
 if __name__ == '__main__':
