@@ -99,13 +99,27 @@ def main(args):
     pr_auc_norm_outlier = auc(recall_norm, precision_norm)
     print(f'AUPR score w/outlier as positive class: {round(pr_auc_norm_outlier, 2)}')
 
-    #  save results
+    #  save results in terms of metrics
     results_df = pd.DataFrame(columns = ['inlier_class', 'inlier_samples', 'outlier_samples',
                                          'auroc', 'aupr_inlier', 'aupr_outlier'])
     results_df.loc[0] = {'inlier_class' : args.inlier_class, 'inlier_samples' : args.inlier_samples,
                          'outlier_samples' : args.outlier_samples, 'auroc' : auroc,
                          'aupr_inlier' : pr_auc_norm_inlier, 'aupr_outlier' : pr_auc_norm_outlier}
     results_df.to_csv(f'results/inlier_class={args.inlier_class}_results.csv', index = False)
+
+    #  save reconstruction error in inlier and outlier classes
+    all_recon_error = np.array(all_recon_error)
+    all_labels_neg_pos = np.array(all_labels_neg_pos)
+
+    inlier_recon_error = all_recon_error[all_labels_neg_pos == 1]
+    print(len(inlier_recon_error))
+    with open(f'results/inlier_recon_error_inlier_class={args.inlier_class}', 'w') as f:
+        f.write(','.join([str(e) for e in inlier_recon_error]))
+
+    outlier_recon_error = all_recon_error[all_labels_neg_pos == 0]
+    print(len(outlier_recon_error))
+    with open(f'results/outlier_recon_error_inlier_class={args.inlier_class}', 'w') as f:
+        f.write(','.join([str(e) for e in outlier_recon_error]))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
