@@ -39,3 +39,20 @@ plt.savefig('figures/auroc_scores.png', dpi = 600)
 plt.show()
 
 # (2) Plotting distribution of reconstruction errors
+with open(os.path.join(base_path, 'results_wo_skips/inlier_recon_error_inlier_class=1.txt')) as f:
+    class_1_inlier_recon_errors = f.read()
+    class_1_inlier_recon_errors = [float(i) for i in class_1_inlier_recon_errors.split(',')]
+
+with open(os.path.join(base_path, 'results_wo_skips/outlier_recon_error_inlier_class=1.txt')) as f:
+    class_1_outlier_recon_errors = f.read()
+    class_1_outlier_recon_errors = [float(i) for i in class_1_outlier_recon_errors.split(',')]
+
+all_class_1_recon_errors = class_1_inlier_recon_errors + class_1_outlier_recon_errors
+labels_neg_pos = (['inlier'] * 6000) + (['outlier'] * 700)
+
+recon_error_df = pd.DataFrame(columns = ['recon_error', 'class'])
+recon_error_df['recon_error'] = all_class_1_recon_errors
+recon_error_df['class'] = labels_neg_pos
+
+sns.displot(data = recon_error_df, x = 'recon_error', hue = 'class', kind = 'kde')
+plt.show()
