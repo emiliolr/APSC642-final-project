@@ -1,10 +1,10 @@
-python3 main.py --epochs 200 --inlier_class 0 --inlier_samples 6000 --outlier_samples 700
-python3 main.py --epochs 200 --inlier_class 1 --inlier_samples 6000 --outlier_samples 700
-python3 main.py --epochs 200 --inlier_class 2 --inlier_samples 6000 --outlier_samples 700
-python3 main.py --epochs 200 --inlier_class 3 --inlier_samples 6000 --outlier_samples 700
-python3 main.py --epochs 200 --inlier_class 4 --inlier_samples 6000 --outlier_samples 700
-python3 main.py --epochs 200 --inlier_class 5 --inlier_samples 6000 --outlier_samples 700
-python3 main.py --epochs 200 --inlier_class 6 --inlier_samples 6000 --outlier_samples 700
-python3 main.py --epochs 200 --inlier_class 7 --inlier_samples 6000 --outlier_samples 700
-python3 main.py --epochs 200 --inlier_class 8 --inlier_samples 6000 --outlier_samples 700
-python3 main.py --epochs 200 --inlier_class 9 --inlier_samples 6000 --outlier_samples 700
+python3 main.py --epochs 200 --inlier_class 0 --inlier_samples 6000 --outlier_samples 700 --use_skip_connections 0
+python3 main.py --epochs 200 --inlier_class 1 --inlier_samples 6000 --outlier_samples 700 --use_skip_connections 0
+python3 main.py --epochs 200 --inlier_class 2 --inlier_samples 6000 --outlier_samples 700 --use_skip_connections 0
+python3 main.py --epochs 200 --inlier_class 3 --inlier_samples 6000 --outlier_samples 700 --use_skip_connections 0
+python3 main.py --epochs 200 --inlier_class 4 --inlier_samples 6000 --outlier_samples 700 --use_skip_connections 0
+python3 main.py --epochs 200 --inlier_class 5 --inlier_samples 6000 --outlier_samples 700 --use_skip_connections 0
+python3 main.py --epochs 200 --inlier_class 6 --inlier_samples 6000 --outlier_samples 700 --use_skip_connections 0
+python3 main.py --epochs 200 --inlier_class 7 --inlier_samples 6000 --outlier_samples 700 --use_skip_connections 0
+python3 main.py --epochs 200 --inlier_class 8 --inlier_samples 6000 --outlier_samples 700 --use_skip_connections 0
+python3 main.py --epochs 200 --inlier_class 9 --inlier_samples 6000 --outlier_samples 700 --use_skip_connections 0

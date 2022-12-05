@@ -9,7 +9,7 @@ from torch.optim import Adam
 
 from sklearn.metrics import roc_auc_score, precision_recall_curve, auc
 
-from unet import UNet
+from unet import UNet, UNetNoSkip
 from utils import mse_loss, get_inlier_outlier_dataset, save_images
 
 def main(args):
@@ -17,11 +17,17 @@ def main(args):
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     print(f'Using device {device}')
 
-    print()
-
     # Instantiate UNet model & optimizer
-    model = UNet(n_channels = 3, n_classes = 3, bilinear = True).to(device)
+    if args.use_skip_connections:
+        print('Using UNet with skip connections')
+        model = UNet(n_channels = 3, n_classes = 3, bilinear = True).to(device)
+    else:
+        print('Using UNet without skip connections')
+        model = UNetNoSkip(n_channels = 3, n_classes = 3, bilinear = True).to(device)
+
     optimizer = Adam(model.parameters(), lr = args.lr)
+
+    print()
 
     # Get the CIFAR-10 dataset + putting into a dataloader
     print('PREPARING DATASET:')
@@ -127,7 +133,11 @@ if __name__ == '__main__':
     parser.add_argument('--inlier_class', type = int, default = 0)
     parser.add_argument('--inlier_samples', type = int, default = 6000)
     parser.add_argument('--outlier_samples', type = int, default = 700)
+    parser.add_argument('--use_skip_connections', type = int, default = 1)
 
     args = parser.parse_args()
+
+    assert args.use_skip_connections in [0, 1], 'Please specify either 1 or 0 for skip connections argument.'
+    args.use_skip_connections = bool(args.use_skip_connections)
 
     main(args)

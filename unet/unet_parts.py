@@ -67,6 +67,24 @@ class Up(nn.Module):
         x = torch.cat([x2, x1], dim=1)
         return self.conv(x)
 
+class UpNoSkip(nn.Module):
+    """Upscaling without skip connections"""
+
+    def __init__(self, in_channels, out_channels, bilinear = True):
+        super().__init__()
+
+        if bilinear:
+            self.up = nn.Upsample(scale_factor = 2, mode = 'bilinear', align_corners = True)
+            self.conv = DoubleConv(in_channels, out_channels, in_channels // 2)
+        else:
+            self.up = nn.ConvTranspose2d(in_channels, in_channels // 2, kernel_size = 2, stride = 2)
+            self.conv = DoubleConv(in_channels, out_channels)
+
+    def forward(self, x):
+        x = self.up(x)
+        x = self.conv(x)
+
+        return x
 
 class OutConv(nn.Module):
     def __init__(self, in_channels, out_channels):
