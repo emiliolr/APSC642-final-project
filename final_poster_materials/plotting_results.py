@@ -18,19 +18,18 @@ all_results_wo_skips = pd.concat(all_results_wo_skips, ignore_index = True)
 print(f'Average AUROC w/o skip connections: {all_results_wo_skips["auroc"].mean()}')
 
 # (1) Plotting AUROC scores for both methods
-all_results_w_skips_AUROC = all_results_w_skips[['inlier_class', 'auroc']].copy()
+# all_results_w_skips_AUROC = all_results_w_skips[['inlier_class', 'auroc']].copy()
 all_results_wo_skips_AUROC = all_results_wo_skips[['inlier_class', 'auroc']].copy()
 
-all_results_AUROC = pd.concat([all_results_w_skips_AUROC, all_results_wo_skips_AUROC])
-all_results_AUROC['skip_connections'] = (['skips'] * 10) + (['no skips'] * 10)
+# all_results_AUROC = pd.concat([all_results_w_skips_AUROC, all_results_wo_skips_AUROC])
+# all_results_AUROC['skip_connections'] = (['skips'] * 10) + (['no skips'] * 10)
 
 plt.figure(figsize = (8, 6))
 
-plt.axhline(y = 0.5, linestyle = 'dotted', color = 'black', zorder = 1)
-sns.barplot(data = all_results_AUROC, x = 'inlier_class', y = 'auroc',
-            hue = 'skip_connections', alpha = 0.85, linewidth = 1, edgecolor = 'black',
-            zorder = 5)
-plt.legend(title = '')
+plt.axhline(y = 0.5, linestyle = 'dotted', color = 'black')
+sns.barplot(data = all_results_wo_skips_AUROC, x = 'inlier_class', y = 'auroc',
+            color = '#CAE9F5', linewidth = 1, edgecolor = 'black')
+# plt.legend(title = '')
 
 plt.xlabel('Inlier Class', fontweight = 'bold')
 plt.ylabel('AUROC', fontweight = 'bold')
@@ -52,7 +51,11 @@ labels_neg_pos = (['inlier'] * 6000) + (['outlier'] * 700)
 
 recon_error_df = pd.DataFrame(columns = ['recon_error', 'class'])
 recon_error_df['recon_error'] = all_class_1_recon_errors
-recon_error_df['class'] = labels_neg_pos
+recon_error_df['Class'] = labels_neg_pos
 
-sns.histplot(data = recon_error_df, x = 'recon_error', hue = 'class')
+sns.histplot(data = recon_error_df, x = 'recon_error', hue = 'Class', legend = True)
+
+plt.xlabel('Reconstruction Error', fontweight = 'bold')
+plt.ylabel('Count', fontweight = 'bold')
+
 plt.show()
