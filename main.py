@@ -84,7 +84,7 @@ def main(args):
                 save_images(X_viz, filename = f'figures/original_images_inlier_class={args.inlier_class}_batch={i}.png')
 
             #  extract reconstruction losses on each image - these are non-standardized scores!
-            recon_error = mse_loss(X, X_recon, train = False).detach().cpu().tolist()
+            recon_error = mse_loss(X, X_recon, sigmoid = True, train = False).detach().cpu().tolist()
             all_recon_error.extend(recon_error)
 
             #  extract labels & convert to neg/pos (pos is inlier class)

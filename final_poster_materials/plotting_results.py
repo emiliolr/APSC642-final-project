@@ -54,5 +54,5 @@ recon_error_df = pd.DataFrame(columns = ['recon_error', 'class'])
 recon_error_df['recon_error'] = all_class_1_recon_errors
 recon_error_df['class'] = labels_neg_pos
 
-sns.displot(data = recon_error_df, x = 'recon_error', hue = 'class', kind = 'kde')
+sns.histplot(data = recon_error_df, x = 'recon_error', hue = 'class')
 plt.show()
