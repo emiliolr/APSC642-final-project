@@ -10,12 +10,25 @@ base_path = '/Users/emiliolr/Desktop/APSC 642/final_project/final_results'
 #  w/skip connections
 all_results_w_skips = [pd.read_csv(os.path.join(base_path, f'results_w_skips/inlier_class={i}_results.csv')) for i in range(10)]
 all_results_w_skips = pd.concat(all_results_w_skips, ignore_index = True)
-print(f'Average AUROC w/skip connections: {all_results_w_skips["auroc"].mean()}')
+# print(f'Average AUROC w/skip connections: {all_results_w_skips["auroc"].mean()}')
 
 #  w/o skip connections
 all_results_wo_skips = [pd.read_csv(os.path.join(base_path, f'results_wo_skips/inlier_class={i}_results.csv')) for i in range(10)]
 all_results_wo_skips = pd.concat(all_results_wo_skips, ignore_index = True)
 print(f'Average AUROC w/o skip connections: {all_results_wo_skips["auroc"].mean()}')
+
+# General plot parameters
+SMALL_SIZE = 16
+MEDIUM_SIZE = 18
+BIG_SIZE = 20
+
+plt.rc('font', size = SMALL_SIZE)
+plt.rc('axes', titlesize = SMALL_SIZE)
+plt.rc('axes', labelsize = MEDIUM_SIZE)
+plt.rc('xtick', labelsize = SMALL_SIZE)
+plt.rc('ytick', labelsize = SMALL_SIZE)
+plt.rc('legend', fontsize = SMALL_SIZE)
+plt.rc('figure', titlesize = BIG_SIZE)
 
 # (1) Plotting AUROC scores for both methods
 # all_results_w_skips_AUROC = all_results_w_skips[['inlier_class', 'auroc']].copy()
@@ -33,6 +46,7 @@ sns.barplot(data = all_results_wo_skips_AUROC, x = 'inlier_class', y = 'auroc',
 
 plt.xlabel('Inlier Class', fontweight = 'bold')
 plt.ylabel('AUROC', fontweight = 'bold')
+plt.title('AUROC Scores With Each Class as the Inlier Class', fontweight = 'bold')
 
 plt.savefig('figures/auroc_scores.png', dpi = 600)
 plt.show()
@@ -53,9 +67,13 @@ recon_error_df = pd.DataFrame(columns = ['recon_error', 'class'])
 recon_error_df['recon_error'] = all_class_1_recon_errors
 recon_error_df['Class'] = labels_neg_pos
 
+plt.figure(figsize = (8, 6))
+
 sns.histplot(data = recon_error_df, x = 'recon_error', hue = 'Class', legend = True)
 
 plt.xlabel('Reconstruction Error', fontweight = 'bold')
 plt.ylabel('Count', fontweight = 'bold')
+plt.title('Distribution of Reconstruction Error for\nInlier vs. Outlier Samples (Inlier=Car)', fontweight = 'bold')
 
+plt.savefig('figures/recon_error_distribution.png', dpi = 600)
 plt.show()
